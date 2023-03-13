@@ -5,9 +5,26 @@ def build_heap(data):
     swaps = []
     # TODO: Creat heap and heap sort
     # try to achieve  O(n) and not O(n2)
-
-
+    n = len(data)
+    for i in range(n//2-1, -1, -1):
+        min_heapify(data, i, n,swaps)
+#    print(data)
+    
     return swaps
+
+def min_heapify(data, i, n, swaps):
+    minimal = i
+    leftchild = 2*i+1
+    rigthchild = 2*i+2
+
+    if (leftchild <= n-1 and data[leftchild] < data[minimal]):
+        minimal = leftchild
+    if (rigthchild <= n-1 and data[rigthchild] < data[minimal]):
+        minimal = rigthchild
+    if (minimal != i):
+        data[i], data[minimal] = data[minimal], data[i]
+        swaps.append((i, minimal))
+        min_heapify(data, minimal, n,swaps)
 
 
 def main():
@@ -18,8 +35,16 @@ def main():
 
 
     # input from keyboard
-    n = int(input())
-    data = list(map(int, input().split()))
+    text = input()
+    if "I" in text:
+        n = int(input())
+        data = list(map(int, input().split()))
+    else:
+        if "F" in text:
+            filename = input()
+            with open("./tests/" + filename, mode = "r") as file:
+                n = int(file.readline())
+                data = list(map(int, file.readline().split()))
 
     # checks if lenght of data is the same as the said lenght
     assert len(data) == n
@@ -36,6 +61,7 @@ def main():
     print(len(swaps))
     for i, j in swaps:
         print(i, j)
+   # print("end")
 
 
 if __name__ == "__main__":
